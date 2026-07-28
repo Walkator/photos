@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Daniel Aguilar photography — recent work">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://media.photos2.dniel.me; connect-src 'self'; font-src 'self'; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <title>Recent — Daniel Aguilar Photography</title>
+        <link href="../styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="site-shell">
+            <aside class="sidebar">
+                <a class="wordmark" href="../" aria-label="Daniel Aguilar home">Daniel<br>Aguilar</a>
+
+                <nav class="site-nav" aria-label="Photo sections">
+                    <a data-section-link="recent" href="./">recent.</a>
+                    <a data-section-link="street" href="../?section=street">street.</a>
+                    <a data-section-link="cities" href="../?section=cities">cities.</a>
+                    <a data-section-link="indoor" href="../?section=indoor">indoor.</a>
+                    <a data-section-link="outdoor" href="../?section=outdoor">outdoor.</a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <a href="https://www.instagram.com/walkator/" aria-label="Instagram" rel="noopener noreferrer" target="_blank">◎</a>
+                    <a href="mailto:aguilar@dniel.me" aria-label="Email">✉</a>
+                </div>
+            </aside>
+
+            <main class="gallery-page">
+                <header class="gallery-header">
+                    <p class="eyebrow">Photography / <span id="section-label">recent</span></p>
+                    <h1 id="page-title">Recent work</h1>
+                    <p class="gallery-count" id="gallery-count"></p>
+                </header>
+                <section class="gallery" id="gallery" aria-live="polite"></section>
+                <p class="empty-state" id="empty-state" hidden>No photographs in this section yet.</p>
+            </main>
+        </div>
+
+        <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+            <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close photo">×</button>
+            <img id="lightbox-image" alt="">
+            <p id="lightbox-caption"></p>
+        </dialog>
+
+        <script src="../app.js" type="module"></script>
+    </body>
+</html>
