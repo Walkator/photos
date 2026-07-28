@@ -20,7 +20,7 @@ const currentSection = new URLSearchParams(window.location.search).get("section"
 const section = Object.hasOwn(sectionTitles, currentSection) ? currentSection : "recent";
 const assetRoot = window.location.pathname.startsWith("/recent/") ? "../" : "";
 const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-const mediaRoot = isLocalPreview ? assetRoot : "https://media.photos2.dniel.me/";
+const mediaRoot = isLocalPreview ? assetRoot : "https://media.photos.dniel.me/";
 
 function setNavigation() {
     document.title = `${sectionTitles[section]} — Daniel Aguilar Photography`;
