@@ -19,8 +19,20 @@ const sectionTitles = {
 const currentSection = new URLSearchParams(window.location.search).get("section") || "recent";
 const section = Object.hasOwn(sectionTitles, currentSection) ? currentSection : "recent";
 const assetRoot = window.location.pathname.startsWith("/recent/") ? "../" : "";
-const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const isLocalPreview = ["localhost", "127.0.0.1", "[::1]", "::1"].includes(window.location.hostname);
 const mediaRoot = isLocalPreview ? assetRoot : "https://media.photos.dniel.me/";
+const photoApiRoot = isLocalPreview ? assetRoot : "https://photos-api.walkator.workers.dev/";
+
+function isPhotoEntry(photo) {
+    return Boolean(
+        photo &&
+        Object.hasOwn(sectionTitles, photo.category) &&
+        typeof photo.name === "string" &&
+        typeof photo.alt === "string" &&
+        typeof photo.mediaPath === "string" &&
+        /^photos\/(street|cities|indoor|outdoor)\/[a-z0-9-]+\.jpg$/.test(photo.mediaPath),
+    );
+}
 
 function setNavigation() {
     document.title = `${sectionTitles[section]} — Daniel Aguilar Photography`;
@@ -41,8 +53,8 @@ function createCard(photo) {
     button.setAttribute("aria-label", `Open ${photo.alt}`);
 
     const image = document.createElement("img");
-    const mediaPath = photo.src.replace(/^assets\/photos\//, "photos/");
-    image.src = `${mediaRoot}${isLocalPreview ? photo.src : mediaPath}`;
+    const localPhotoPath = photo.mediaPath.replace(/^photos\//, "assets/photos/");
+    image.src = `${mediaRoot}${isLocalPreview ? localPhotoPath : photo.mediaPath}`;
     image.alt = photo.alt;
     image.loading = "lazy";
     image.decoding = "async";
@@ -66,9 +78,20 @@ function closeLightbox() {
 
 async function init() {
     setNavigation();
-    const response = await fetch(`${assetRoot}data/photos.json`);
+    const response = await fetch(`${photoApiRoot}api/photos`, {
+        headers: { Accept: "application/json" },
+    });
+    if (!response.ok) {
+        throw new Error(`Photo API returned ${response.status}`);
+    }
+
     const photos = await response.json();
-    const visiblePhotos = section === "recent" ? photos : photos.filter((photo) => photo.category === section);
+    if (!Array.isArray(photos)) {
+        throw new Error("Photo API returned an invalid payload");
+    }
+
+    const validPhotos = photos.filter(isPhotoEntry);
+    const visiblePhotos = section === "recent" ? validPhotos : validPhotos.filter((photo) => photo.category === section);
 
     galleryCount.textContent = `${visiblePhotos.length} photographs`;
     if (visiblePhotos.length === 0) {
