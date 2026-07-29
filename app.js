@@ -29,7 +29,7 @@ function isPhotoEntry(photo) {
         typeof photo.name === "string" &&
         typeof photo.alt === "string" &&
         typeof photo.mediaPath === "string" &&
-        /^photos\/(street|indoor|outdoor)\/[a-z0-9-]+\.jpg$/.test(photo.mediaPath),
+        /^photos\/(street|indoor|outdoor)\/[A-Za-z0-9_-]+\.jpg$/.test(photo.mediaPath),
     );
 }
 
@@ -90,7 +90,8 @@ async function init() {
     }
 
     const validPhotos = photos.filter(isPhotoEntry);
-    const visiblePhotos = section === "recent" ? validPhotos : validPhotos.filter((photo) => photo.category === section);
+    const sectionPhotos = section === "recent" ? validPhotos : validPhotos.filter((photo) => photo.category === section);
+    const visiblePhotos = section === "recent" ? sectionPhotos : sectionPhotos.reverse();
 
     galleryCount.textContent = `${visiblePhotos.length} photographs`;
     if (visiblePhotos.length === 0) {

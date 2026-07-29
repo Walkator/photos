@@ -274,17 +274,23 @@ a {
     display: grid;
     width: 32px;
     height: 32px;
-    padding: 0 0 3px;
+    padding: 0;
     border: 0;
     border-radius: 50%;
     background: transparent;
     color: var(--ink);
     font: inherit;
-    font-size: 2.35rem;
-    line-height: 1;
+    font-size: 0;
     place-items: center;
     cursor: pointer;
     transition: background-color 160ms ease;
+}
+
+.lightbox-close::before {
+    content: "×";
+    font-size: 2rem;
+    line-height: 1;
+    transform: translateY(-1px);
 }
 
 .lightbox-close:hover {
