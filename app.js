@@ -29,10 +29,22 @@ function isPhotoEntry(photo) {
         typeof photo.name === "string" &&
         typeof photo.alt === "string" &&
         typeof photo.mediaPath === "string" &&
-        typeof photo.createdAt === "string" &&
-        !Number.isNaN(Date.parse(photo.createdAt)) &&
         /^photos\/(street|indoor|outdoor)\/[A-Za-z0-9_-]+\.jpg$/.test(photo.mediaPath),
     );
+}
+
+function compareByCreationDate(left, right) {
+    const leftTimestamp = typeof left.createdAt === "string" ? Date.parse(left.createdAt) : Number.NaN;
+    const rightTimestamp = typeof right.createdAt === "string" ? Date.parse(right.createdAt) : Number.NaN;
+    const leftHasTimestamp = !Number.isNaN(leftTimestamp);
+    const rightHasTimestamp = !Number.isNaN(rightTimestamp);
+
+    if (!leftHasTimestamp && !rightHasTimestamp) {
+        return 0;
+    }
+
+    return (rightHasTimestamp ? rightTimestamp : 0) - (leftHasTimestamp ? leftTimestamp : 0)
+        || left.mediaPath.localeCompare(right.mediaPath);
 }
 
 function setNavigation() {
@@ -93,7 +105,7 @@ async function init() {
 
     const validPhotos = photos
         .filter(isPhotoEntry)
-        .sort((left, right) => right.createdAt.localeCompare(left.createdAt) || left.mediaPath.localeCompare(right.mediaPath));
+        .sort(compareByCreationDate);
     const sectionPhotos = section === "recent" ? validPhotos : validPhotos.filter((photo) => photo.category === section);
     const visiblePhotos = sectionPhotos;
 
