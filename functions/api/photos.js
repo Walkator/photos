@@ -1,5 +1,5 @@
 const CATEGORY_ORDER = ["street", "indoor", "outdoor"];
-const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([a-z0-9-]+)\.jpg$/;
+const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([A-Za-z0-9_-]+)\.jpg$/;
 
 function slugify(filename) {
     return filename
@@ -24,7 +24,7 @@ function photoFromObject(object) {
     return {
         category: category.toLowerCase(),
         name,
-        alt: `${category.toLowerCase()} photograph ${name.replaceAll("-", " ")}`,
+        alt: `${category.toLowerCase()} photograph ${name.replaceAll(/[-_]+/g, " ").trim()}`,
         localSrc: `assets/photos/${category.toLowerCase()}/${name}.jpg`,
         mediaPath: object.key,
     };

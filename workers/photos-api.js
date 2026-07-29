@@ -1,5 +1,5 @@
 const ALLOWED_ORIGIN = "https://photos.dniel.me";
-const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([a-z0-9-]+)\.jpg$/;
+const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([A-Za-z0-9_-]+)\.jpg$/;
 
 function responseHeaders(headers = {}) {
     return {
@@ -19,7 +19,7 @@ function photoFromObject(object) {
     return {
         category,
         name,
-        alt: `${category} photograph ${name.replaceAll("-", " ")}`,
+        alt: `${category} photograph ${name.replaceAll(/[-_]+/g, " ").trim()}`,
         mediaPath: object.key,
     };
 }
