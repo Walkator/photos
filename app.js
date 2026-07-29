@@ -11,7 +11,6 @@ const lightboxClose = document.querySelector("#lightbox-close");
 const sectionTitles = {
     recent: "Recent work",
     street: "Street",
-    cities: "Cities",
     indoor: "Indoor",
     outdoor: "Outdoor",
 };
@@ -30,7 +29,7 @@ function isPhotoEntry(photo) {
         typeof photo.name === "string" &&
         typeof photo.alt === "string" &&
         typeof photo.mediaPath === "string" &&
-        /^photos\/(street|cities|indoor|outdoor)\/[a-z0-9-]+\.jpg$/.test(photo.mediaPath),
+        /^photos\/(street|indoor|outdoor)\/[a-z0-9-]+\.jpg$/.test(photo.mediaPath),
     );
 }
 

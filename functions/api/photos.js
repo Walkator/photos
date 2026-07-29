@@ -1,5 +1,5 @@
-const CATEGORY_ORDER = ["street", "cities", "indoor", "outdoor"];
-const PHOTO_KEY = /^photos\/(street|cities|indoor|outdoor)\/([a-z0-9-]+)\.jpg$/;
+const CATEGORY_ORDER = ["street", "indoor", "outdoor"];
+const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([a-z0-9-]+)\.jpg$/;
 
 function slugify(filename) {
     return filename

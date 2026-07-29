@@ -11,7 +11,7 @@ if (!sourceRoot) {
     process.exit(1);
 }
 
-const categoryOrder = ["street", "cities", "indoor", "outdoor"];
+const categoryOrder = ["street", "indoor", "outdoor"];
 const outputRoot = join(siteRoot, "assets", "photos");
 
 function collectJpgs(directory) {
