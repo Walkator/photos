@@ -279,12 +279,21 @@ a {
     border-radius: 50%;
     background: transparent;
     -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
     appearance: none;
     color: var(--ink);
     font: inherit;
     font-size: 0;
     place-items: center;
     cursor: pointer;
+}
+
+.lightbox-close:focus,
+.lightbox-close:focus-visible,
+.lightbox-close:active {
+    outline: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .lightbox-close::before {
