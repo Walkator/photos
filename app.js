@@ -29,6 +29,8 @@ function isPhotoEntry(photo) {
         typeof photo.name === "string" &&
         typeof photo.alt === "string" &&
         typeof photo.mediaPath === "string" &&
+        typeof photo.createdAt === "string" &&
+        !Number.isNaN(Date.parse(photo.createdAt)) &&
         /^photos\/(street|indoor|outdoor)\/[A-Za-z0-9_-]+\.jpg$/.test(photo.mediaPath),
     );
 }
@@ -89,9 +91,11 @@ async function init() {
         throw new Error("Photo API returned an invalid payload");
     }
 
-    const validPhotos = photos.filter(isPhotoEntry);
+    const validPhotos = photos
+        .filter(isPhotoEntry)
+        .sort((left, right) => right.createdAt.localeCompare(left.createdAt) || left.mediaPath.localeCompare(right.mediaPath));
     const sectionPhotos = section === "recent" ? validPhotos : validPhotos.filter((photo) => photo.category === section);
-    const visiblePhotos = section === "recent" ? sectionPhotos : sectionPhotos.reverse();
+    const visiblePhotos = sectionPhotos;
 
     galleryCount.textContent = `${visiblePhotos.length} photographs`;
     if (visiblePhotos.length === 0) {

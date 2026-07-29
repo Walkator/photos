@@ -21,6 +21,7 @@ function photoFromObject(object) {
         name,
         alt: `${category} photograph ${name.replaceAll(/[-_]+/g, " ").trim()}`,
         mediaPath: object.key,
+        createdAt: object.uploaded.toISOString(),
     };
 }
 
@@ -68,7 +69,10 @@ export default {
             cursor = page.truncated ? page.cursor : undefined;
         } while (cursor);
 
-        const photos = objects.map(photoFromObject).filter(Boolean);
+        const photos = objects
+            .map(photoFromObject)
+            .filter(Boolean)
+            .sort((left, right) => right.createdAt.localeCompare(left.createdAt) || left.mediaPath.localeCompare(right.mediaPath));
         return new Response(JSON.stringify(photos), {
             headers: responseHeaders({
                 "Cache-Control": "public, max-age=60, s-maxage=300",

@@ -287,10 +287,27 @@ a {
 }
 
 .lightbox-close::before {
-    content: "×";
-    font-size: 2rem;
-    line-height: 1;
-    transform: translateY(-1px);
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.lightbox-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .lightbox-close:hover {

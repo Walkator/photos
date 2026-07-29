@@ -1,4 +1,3 @@
-const CATEGORY_ORDER = ["street", "indoor", "outdoor"];
 const PHOTO_KEY = /^photos\/(street|indoor|outdoor)\/([A-Za-z0-9_-]+)\.jpg$/;
 
 function slugify(filename) {
@@ -27,6 +26,7 @@ function photoFromObject(object) {
         alt: `${category.toLowerCase()} photograph ${name.replaceAll(/[-_]+/g, " ").trim()}`,
         localSrc: `assets/photos/${category.toLowerCase()}/${name}.jpg`,
         mediaPath: object.key,
+        createdAt: object.uploaded.toISOString(),
     };
 }
 
@@ -50,10 +50,7 @@ export async function onRequestGet({ env }) {
     const photos = objects
         .map(photoFromObject)
         .filter(Boolean)
-        .sort((left, right) => {
-            const categoryDifference = CATEGORY_ORDER.indexOf(left.category) - CATEGORY_ORDER.indexOf(right.category);
-            return categoryDifference || left.mediaPath.localeCompare(right.mediaPath);
-        });
+        .sort((left, right) => right.createdAt.localeCompare(left.createdAt) || left.mediaPath.localeCompare(right.mediaPath));
 
     return Response.json(photos, {
         headers: {
